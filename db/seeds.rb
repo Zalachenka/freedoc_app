@@ -4,15 +4,19 @@ require 'faker'
 end
 puts "100 fake cities created"
 100.times do
-	doc = Doctor.create!(first_name: Faker::Name.unique.first_name, last_name: Faker::Name.unique.last_name, speciality: ["Neurology", "Psychology", "Oncology", "Cardiology", "Radiology", "Obstetrics", "Pediatry", "General Medicine", "Urology", "Ophtalmology"].sample, zip_code: Faker::Address.zip_code )
+	doc = Doctor.create!(first_name: Faker::Name.unique.first_name, last_name: Faker::Name.unique.last_name, zip_code: Faker::Address.zip_code, city_id: rand(1..City.count) )
 end
 puts "100 fake docs created"
 100.times do
-	pat = Patient.create!(first_name: Faker::Name.unique.first_name, last_name: Faker::Name.unique.last_name )
+	pat = Patient.create!(first_name: Faker::Name.unique.first_name, last_name: Faker::Name.unique.last_name, city_id: rand(1..City.count) )
 end
 puts "100 fake patients created"
 100.times do
-  rdv = Appointment.create!(date:Faker::Date.forward(23) , doctor_id: rand(1..Doctor.count), patient_id: rand(1..Patient.count), city_id: rand(1..City.count))
+	spe = Specialty.create!(name: ["Neurology", "Psychology", "Oncology", "Cardiology", "Radiology", "Obstetrics", "Pediatry", "General Medicine", "Urology", "Ophtalmology"].sample)
+end
+puts "100 fake specialties created"
+100.times do
+	rdv = Appointment.create!(date: Faker::Date.forward(23), city_id: rand(1..City.count), doctor_id: rand(1..Doctor.count), patient_id: rand(1..Patient.count))
 end
 puts "100 fake appointments created"
 
